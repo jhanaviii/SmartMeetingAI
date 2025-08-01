@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - SmartMeetingAI{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
+            <p class="text-gray-600">Manage your account and integrations</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Account Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-lg font-medium text-gray-900">Account Settings</h3>
+            </div>
+            <div class="card-body">
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Username</label>
+                        <input type="text" value="{{ current_user.username }}" class="form-input" readonly>
+                    </div>
+                    <div>
+                        <label class="form-label">Email</label>
+                        <input type="email" value="{{ current_user.email }}" class="form-input" readonly>
+                    </div>
+                    <div>
+                        <label class="form-label">Member Since</label>
+                        <input type="text" value="{{ current_user.created_at.strftime('%B %d, %Y') }}" class="form-input" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gmail Integration -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-lg font-medium text-gray-900">Gmail Integration</h3>
+            </div>
+            <div class="card-body">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Status</span>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-sm text-green-600">Connected</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Gmail Account</label>
+                        <input type="email" placeholder="your-email@gmail.com" class="form-input">
+                    </div>
+                    <div>
+                        <label class="form-label">App Password</label>
+                        <input type="password" placeholder="Enter app password" class="form-input">
+                        <p class="text-xs text-gray-500 mt-1">Use Gmail app password for security</p>
+                    </div>
+                    <button class="w-full btn btn-primary">
+                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Update Gmail Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WhatsApp Integration -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-lg font-medium text-gray-900">WhatsApp Integration</h3>
+            </div>
+            <div class="card-body">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Status</span>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-sm text-green-600">Connected</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">WhatsApp Business API Key</label>
+                        <input type="password" placeholder="Enter API key" class="form-input">
+                    </div>
+                    <div>
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" placeholder="+1234567890" class="form-input">
+                    </div>
+                    <button class="w-full btn btn-success">
+                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Update WhatsApp Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-lg font-medium text-gray-900">Notification Settings</h3>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h4 class="font-medium text-gray-900">Email Notifications</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                            <span class="ml-2 text-sm text-gray-700">Template generation confirmations</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                            <span class="ml-2 text-sm text-gray-700">Invitation delivery status</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-700">Weekly activity reports</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="font-medium text-gray-900">System Notifications</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                            <span class="ml-2 text-sm text-gray-700">Integration status updates</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                            <span class="ml-2 text-sm text-gray-700">Error notifications</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-700">Feature updates</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Settings -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-lg font-medium text-gray-900">Template Settings</h3>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Default Meeting Duration</label>
+                        <select class="form-input">
+                            <option value="30">30 minutes</option>
+                            <option value="60" selected>1 hour</option>
+                            <option value="90">1.5 hours</option>
+                            <option value="120">2 hours</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Default Meeting Type</label>
+                        <select class="form-input">
+                            <option value="">None</option>
+                            <option value="Team Meeting" selected>Team Meeting</option>
+                            <option value="Client Meeting">Client Meeting</option>
+                            <option value="Planning Session">Planning Session</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Default Priority</label>
+                        <select class="form-input">
+                            <option value="">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Auto-save Templates</label>
+                        <select class="form-input">
+                            <option value="true" selected>Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="card border-red-200">
+        <div class="card-header border-red-200">
+            <h3 class="text-lg font-medium text-red-900">Danger Zone</h3>
+        </div>
+        <div class="card-body">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h4 class="font-medium text-gray-900">Delete Account</h4>
+                        <p class="text-sm text-gray-500">Permanently delete your account and all associated data</p>
+                    </div>
+                    <button class="btn btn-error">
+                        Delete Account
+                    </button>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h4 class="font-medium text-gray-900">Clear All Data</h4>
+                        <p class="text-sm text-gray-500">Remove all templates and distribution history</p>
+                    </div>
+                    <button class="btn btn-warning">
+                        Clear Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Save settings functionality
+    const saveButtons = document.querySelectorAll('.btn-primary, .btn-success');
+    
+    saveButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            showToast('Settings saved successfully!', 'success');
+        });
+    });
+
+    // Danger zone confirmations
+    const deleteAccountBtn = document.querySelector('.btn-error');
+    const clearDataBtn = document.querySelector('.btn-warning');
+
+    deleteAccountBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            showToast('Account deletion requested. Please contact support.', 'warning');
+        }
+    });
+
+    clearDataBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+            showToast('Data cleared successfully!', 'success');
+        }
+    });
+});
+</script>
+{% endblock %} 

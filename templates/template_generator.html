@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Template Generator - SmartMeetingAI{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Template Generator</h1>
+            <p class="text-gray-600">Create professional meeting invitations with AI assistance</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Form Section -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-lg font-medium text-gray-900">Meeting Details</h3>
+            </div>
+            <div class="card-body">
+                <form id="template-form" class="space-y-6">
+                    <!-- Basic Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="meetingTopic" class="form-label">Meeting Topic *</label>
+                            <input type="text" id="meetingTopic" name="meetingTopic" required class="form-input" placeholder="e.g., Q4 Planning Meeting">
+                        </div>
+                        <div>
+                            <label for="speakerName" class="form-label">Speaker Name *</label>
+                            <input type="text" id="speakerName" name="speakerName" required class="form-input" placeholder="e.g., John Doe">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="date" class="form-label">Date *</label>
+                            <input type="date" id="date" name="date" required class="form-input">
+                        </div>
+                        <div>
+                            <label for="time" class="form-label">Time *</label>
+                            <input type="time" id="time" name="time" required class="form-input">
+                        </div>
+                        <div>
+                            <label for="duration" class="form-label">Duration</label>
+                            <select id="duration" name="duration" class="form-input">
+                                <option value="">Select duration</option>
+                                <option value="30 minutes">30 minutes</option>
+                                <option value="1 hour">1 hour</option>
+                                <option value="1.5 hours">1.5 hours</option>
+                                <option value="2 hours">2 hours</option>
+                                <option value="3 hours">3 hours</option>
+                                <option value="4 hours">4 hours</option>
+                                <option value="All day">All day</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="meetingLink" class="form-label">Meeting Link</label>
+                            <input type="url" id="meetingLink" name="meetingLink" class="form-input" placeholder="https://meet.google.com/...">
+                        </div>
+                        <div>
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" id="location" name="location" class="form-input" placeholder="Conference Room A">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="meetingType" class="form-label">Meeting Type</label>
+                            <select id="meetingType" name="meetingType" class="form-input">
+                                <option value="">Select type</option>
+                                <option value="Team Meeting">Team Meeting</option>
+                                <option value="Client Meeting">Client Meeting</option>
+                                <option value="Planning Session">Planning Session</option>
+                                <option value="Review Meeting">Review Meeting</option>
+                                <option value="Training Session">Training Session</option>
+                                <option value="Presentation">Presentation</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="priority" class="form-label">Priority</label>
+                            <select id="priority" name="priority" class="form-input">
+                                <option value="">Select priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="agenda" class="form-label">Agenda</label>
+                        <textarea id="agenda" name="agenda" rows="3" class="form-input" placeholder="Enter meeting agenda points..."></textarea>
+                    </div>
+
+                    <div>
+                        <label for="attendees" class="form-label">Attendees</label>
+                        <textarea id="attendees" name="attendees" rows="3" class="form-input" placeholder="Enter attendee names (one per line)"></textarea>
+                        <p class="text-sm text-gray-500 mt-1">Enter one attendee per line</p>
+                    </div>
+
+                    <div>
+                        <label for="additionalNotes" class="form-label">Additional Notes</label>
+                        <textarea id="additionalNotes" name="additionalNotes" rows="3" class="form-input" placeholder="Any additional information..."></textarea>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="submit" id="generate-btn" class="btn btn-primary flex-1">
+                            <span id="generate-text">Generate Template</span>
+                            <span id="generate-loading" class="hidden">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Generating...
+                            </span>
+                        </button>
+                        <button type="button" id="preview-btn" class="btn btn-secondary" disabled>
+                            Preview
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-lg font-medium text-gray-900">Template Preview</h3>
+            </div>
+            <div class="card-body">
+                <div id="preview-placeholder" class="text-center py-12 text-gray-500">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p class="text-lg font-medium">No template generated yet</p>
+                    <p class="text-sm">Fill in the form and click "Generate Template" to see a preview</p>
+                </div>
+                
+                <div id="template-preview" class="hidden">
+                    <div id="preview-content" class="border rounded-lg p-4 bg-gray-50 max-h-96 overflow-y-auto"></div>
+                    
+                    <div class="mt-4 flex space-x-3">
+                        <button id="download-pdf-btn" class="btn btn-success flex-1">
+                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Download Template
+                        </button>
+                        <button id="send-invitation-btn" class="btn btn-primary flex-1">
+                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            Send Invitation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('template-form');
+    const generateBtn = document.getElementById('generate-btn');
+    const generateText = document.getElementById('generate-text');
+    const generateLoading = document.getElementById('generate-loading');
+    const previewBtn = document.getElementById('preview-btn');
+    const previewPlaceholder = document.getElementById('preview-placeholder');
+    const templatePreview = document.getElementById('template-preview');
+    const previewContent = document.getElementById('preview-content');
+    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+    const sendInvitationBtn = document.getElementById('send-invitation-btn');
+
+    let currentTemplate = null;
+    let currentTemplateId = null;
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        generateText.classList.add('hidden');
+        generateLoading.classList.remove('hidden');
+        generateBtn.disabled = true;
+
+        // Collect form data
+        const formData = new FormData(form);
+        const data = {};
+        
+        for (let [key, value] of formData.entries()) {
+            if (key === 'attendees') {
+                // Convert attendees text to array
+                data[key] = value.split('\n').filter(attendee => attendee.trim() !== '');
+            } else {
+                data[key] = value;
+            }
+        }
+
+        try {
+            const response = await apiCall('/api/templates/generate', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+
+            if (response.success) {
+                currentTemplate = response.template;
+                currentTemplateId = response.template_id;
+                
+                // Show preview
+                previewPlaceholder.classList.add('hidden');
+                templatePreview.classList.remove('hidden');
+                previewContent.innerHTML = currentTemplate;
+                
+                // Enable buttons
+                previewBtn.disabled = false;
+                downloadPdfBtn.disabled = false;
+                sendInvitationBtn.disabled = false;
+                
+                showToast('Template generated successfully!', 'success');
+            }
+        } catch (error) {
+            showToast('Failed to generate template: ' + error.message, 'error');
+        } finally {
+            // Hide loading state
+            generateText.classList.remove('hidden');
+            generateLoading.classList.add('hidden');
+            generateBtn.disabled = false;
+        }
+    });
+
+    // Preview button
+    previewBtn.addEventListener('click', function() {
+        if (currentTemplate) {
+            // Open preview in new window
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Template Preview</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                    </style>
+                </head>
+                <body>
+                    ${currentTemplate}
+                </body>
+                </html>
+            `);
+            previewWindow.document.close();
+        }
+    });
+
+    // Download button
+    downloadPdfBtn.addEventListener('click', function() {
+        if (currentTemplateId) {
+            // Download the template
+            window.open(`/api/templates/${currentTemplateId}/download`, '_blank');
+            showToast('Download started!', 'success');
+        } else {
+            showToast('Please generate a template first!', 'error');
+        }
+    });
+
+    // Send invitation button
+    sendInvitationBtn.addEventListener('click', function() {
+        if (currentTemplateId) {
+            // Redirect to distribution page with template ID
+            window.location.href = `/distribution?template_id=${currentTemplateId}`;
+        }
+    });
+
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
+});
+</script>
+{% endblock %} 
