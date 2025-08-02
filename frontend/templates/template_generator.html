@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Template Generator - SmartMeetingAI{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h2 fw-bold text-dark mb-1">Template Generator</h1>
+            <p class="text-muted mb-0">Create professional meeting invitations with AI assistance</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Form Section -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-edit me-2"></i>Meeting Details
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="template-form">
+                        <!-- Basic Information -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="meetingTopic" class="form-label">Meeting Topic *</label>
+                                <input type="text" class="form-control" id="meetingTopic" name="meetingTopic" required placeholder="e.g., Q4 Planning Meeting">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="speakerName" class="form-label">Speaker Name *</label>
+                                <input type="text" class="form-control" id="speakerName" name="speakerName" required placeholder="e.g., John Doe">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label for="date" class="form-label">Date *</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="time" class="form-label">Time *</label>
+                                <input type="time" class="form-control" id="time" name="time" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="duration" class="form-label">Duration</label>
+                                <select class="form-select" id="duration" name="duration">
+                                    <option value="">Select duration</option>
+                                    <option value="30 minutes">30 minutes</option>
+                                    <option value="1 hour">1 hour</option>
+                                    <option value="1.5 hours">1.5 hours</option>
+                                    <option value="2 hours">2 hours</option>
+                                    <option value="3 hours">3 hours</option>
+                                    <option value="4 hours">4 hours</option>
+                                    <option value="All day">All day</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="meetingLink" class="form-label">Meeting Link</label>
+                                <input type="url" class="form-control" id="meetingLink" name="meetingLink" placeholder="https://meet.google.com/...">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" placeholder="Conference Room A">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="meetingType" class="form-label">Meeting Type</label>
+                                <select class="form-select" id="meetingType" name="meetingType">
+                                    <option value="">Select type</option>
+                                    <option value="Team Meeting">Team Meeting</option>
+                                    <option value="Client Meeting">Client Meeting</option>
+                                    <option value="Planning Session">Planning Session</option>
+                                    <option value="Review Meeting">Review Meeting</option>
+                                    <option value="Training Session">Training Session</option>
+                                    <option value="Presentation">Presentation</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="priority" class="form-label">Priority</label>
+                                <select class="form-select" id="priority" name="priority">
+                                    <option value="">Select priority</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="agenda" class="form-label">Agenda</label>
+                            <textarea class="form-control" id="agenda" name="agenda" rows="3" placeholder="Enter meeting agenda points..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="attendees" class="form-label">Attendees</label>
+                            <textarea class="form-control" id="attendees" name="attendees" rows="3" placeholder="Enter attendee names (one per line)"></textarea>
+                            <div class="form-text">Enter one attendee per line</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="additionalNotes" class="form-label">Additional Notes</label>
+                            <textarea class="form-control" id="additionalNotes" name="additionalNotes" rows="3" placeholder="Any additional information..."></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-magic me-2"></i>Generate Template
+                            </button>
+                            <button type="button" id="clear-form" class="btn btn-outline-secondary">
+                                <i class="fas fa-eraser me-2"></i>Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-eye me-2"></i>Generated Template
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="template-preview" class="border rounded p-4 text-center text-muted" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                        <div>
+                            <i class="fas fa-file-alt fs-1 mb-3"></i>
+                            <p class="mb-1">Fill in the meeting details and click "Generate Template"</p>
+                            <p class="small mb-0">AI will create a professional invitation for you</p>
+                        </div>
+                    </div>
+                    
+                    <div id="template-actions" class="mt-4 d-none">
+                        <div class="d-grid gap-2">
+                            <button id="download-template" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>Download Template
+                            </button>
+                            <a href="{{ url_for('distribution') }}" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send Invitations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('template-form');
+    const preview = document.getElementById('template-preview');
+    const actions = document.getElementById('template-actions');
+    const clearBtn = document.getElementById('clear-form');
+    let currentTemplateId = null;
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const data = {};
+        
+        // Convert FormData to object
+        for (let [key, value] of formData.entries()) {
+            if (key === 'attendees') {
+                // Split attendees by newline and filter empty lines
+                data[key] = value.split('\n').filter(attendee => attendee.trim() !== '');
+            } else {
+                data[key] = value;
+            }
+        }
+
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/templates/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Display the generated template
+                preview.innerHTML = result.template;
+                preview.className = 'border rounded p-4';
+                currentTemplateId = result.template_id;
+                actions.classList.remove('d-none');
+                
+                showAlert('Template generated successfully!', 'success');
+            } else {
+                showAlert('Failed to generate template: ' + result.error, 'danger');
+            }
+        } catch (error) {
+            showAlert('Error generating template: ' + error.message, 'danger');
+        } finally {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Clear form
+    clearBtn.addEventListener('click', function() {
+        form.reset();
+        preview.innerHTML = `
+            <div>
+                <i class="fas fa-file-alt fs-1 mb-3"></i>
+                <p class="mb-1">Fill in the meeting details and click "Generate Template"</p>
+                <p class="small mb-0">AI will create a professional invitation for you</p>
+            </div>
+        `;
+        preview.className = 'border rounded p-4 text-center text-muted';
+        preview.style.display = 'flex';
+        preview.style.alignItems = 'center';
+        preview.style.justifyContent = 'center';
+        actions.classList.add('d-none');
+        currentTemplateId = null;
+    });
+
+    // Download template
+    document.getElementById('download-template').addEventListener('click', function() {
+        if (currentTemplateId) {
+            window.open(`/api/templates/${currentTemplateId}/download`, '_blank');
+        }
+    });
+});
+</script>
+
+<style>
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+#template-preview {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+#template-preview:hover {
+    background-color: #e9ecef;
+}
+</style>
+{% endblock %} 
